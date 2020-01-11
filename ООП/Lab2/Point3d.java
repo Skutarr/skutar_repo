@@ -2,16 +2,18 @@ public class Point3d {
     /**
      * координаты x,y,z
      **/
-    private double xCoord, yCoord, zCoord, distanceXnY, distanceYnZ, distanceXnZ;
-
+    private double xCoord, yCoord, zCoord, distanceXnY, distanceYnZ, distanceXnZ,compare_result;
+    String name="";
 
     /**
      * Конструктор инициализации
      **/
-    public Point3d(double x, double y, double z) {
+    public Point3d(double x, double y, double z,String name) {
         xCoord = x;
         yCoord = y;
         zCoord = z;
+        this.name = name;
+
     }
 
     /**
@@ -19,7 +21,7 @@ public class Point3d {
      **/
     public Point3d() {
 //Вызовите конструктор с двумя параметрами и определите источник.
-        this(0, 0, 0);
+        this(0, 0, 0,"new point");
     }
 
     /**
@@ -107,14 +109,6 @@ public class Point3d {
     }
 
 
-    /**
-     * измерение расстояний между точками 1 и 2
-     **/
-    public double distance1n2(Point3d ob1, Point3d ob2) {
-        double distance1n2 = 0;
-        return distance1n2;
-
-    }
 
     /**
      * сравнение точек
@@ -132,73 +126,153 @@ public class Point3d {
         double coordYThirdPoint = ob3.getY();
         double coordZThirdPoint = ob3.getZ();
 
-
         if ((coordXFirstPoint == coordXSecondPoint &
                 coordYFirstPoint == coordYSecondPoint &
-                coordZFirstPoint == coordZSecondPoint))
-            System.out.println(" Равны первая и вторая точки ");
-        {
+                coordZFirstPoint == coordZSecondPoint)) {
 
             if ((coordXSecondPoint == coordXThirdPoint &
                     coordYSecondPoint == coordYThirdPoint &
-                    coordZSecondPoint == coordZThirdPoint))
-                System.out.println(" Равны вторая и третья точки ");
-            {
+                    coordZSecondPoint == coordZThirdPoint)) {
 
                 if ((coordXFirstPoint == coordXThirdPoint &
                         coordYFirstPoint == coordYThirdPoint &
-                        coordZFirstPoint == coordZThirdPoint))
-                    System.out.println(" Равны первая и третья точки  ");
-
+                        coordZFirstPoint == coordZThirdPoint)) {
+                    this.compare_result=1;
+                    System.out.println(" Совпали точки  "+ob1.name+"    и   "+ob3.name);
+                }
+                this.compare_result=1;
+                System.out.println("Совпали точки   "+ob2.name+"    и   "+ob3.name);
             }
-
+            this.compare_result=1;
+            System.out.println(" Совпали точки   "+ob1.name+"    и   "+ob2.name);
         }
 
+        else if ((coordXSecondPoint == coordXThirdPoint &
+                coordYSecondPoint == coordYThirdPoint &
+                coordZSecondPoint == coordZThirdPoint)) {
 
-        else
-        System.out.println(" Точки не равны  ");
+            if ((coordXFirstPoint == coordXThirdPoint &
+                    coordYFirstPoint == coordYThirdPoint &
+                    coordZFirstPoint == coordZThirdPoint)) {
+                System.out.println(" Совпали точки   "+ob1.name+"    и   "+ob3.name);
+                this.compare_result=1;
+            }
+            this.compare_result=1;
+            System.out.println(" Совпали точки   "+ob2.name+"    и   "+ob3.name);
+        }
+
+        else if ((coordXFirstPoint == coordXThirdPoint &
+                coordYFirstPoint == coordYThirdPoint &
+                coordZFirstPoint == coordZThirdPoint)) {
+            System.out.println(" Совпали точки   "+ob1.name+"    и   "+ob3.name);
+            this.compare_result=1;
+        }
+
+        else {
+
+            this.compare_result = 0;
+            System.out.println(" Точки не совпали  ");
+        }
     }
-
-
-
-/**
-        if(ob1.equals(ob2))
-            System.out.println(" Равны первая и вторая точки ");
-        if (ob2.equals(ob3))
-            System.out.println(" Равны вторая и третья точки ");
-        if (ob1.equals(ob3))
-            System.out.println(" Равны первая и третья точки  ");
-        else
-            System.out.println(" Точки не равны  ");
-*/
-
-
-
 
 
     /**
-     * измерение расстояний между точками 2 и 3
-    **/
+     * измерение расстояний между точками
+     **/
+    public double distance1n2(Point3d ob1, Point3d ob2) {
+        double x1,x2,y1,y2,z1,z2,distance1n2;
+        /**инициализация координат + математические операции для формулы нахождения
+         * расстояния между 3D точками**/
+        x1=ob1.getX();
+        x2=ob2.getX();
+        y1=ob1.getY();
+        y2=ob2.getY();
+        z1=ob1.getZ();
+        z2=ob2.getZ();
 
-        /**
-        *  измерение расстояний между точками 1 и 3
-        **/
+        double polX2_X1=Math.pow((x2-x1),2);
+        double polY2_Y1=Math.pow((y2-y1),2);
+        double polZ2_Z1=Math.pow(z2-z1,2);
+        double Sum=polX2_X1+polY2_Y1+polZ2_Z1;
+        distance1n2=(Math.rint(Math.sqrt(Sum)*100))/100;
+
+        if (ob1.compare_result==0) {
+            System.out.println("Расстояние между точками    "+ob1.name+"    и   "+ob2.name+"    равно   " + distance1n2);
+            return distance1n2;
+
+        }
+        else {
+            System.out.println("Координаты точек совпали ");
+            return 0;
+        }
+    }
 
 
 
+    /** расчет площади треугольника по теореме Герона  */
 
+    public double triangle_area(Point3d ob1,Point3d ob2,Point3d ob3){
+        double distance1n2,distance2n3,distance1n3;
 
+        double x1=ob1.getX();
+        double x2=ob2.getX();
+        double x3=ob3.getX();
 
+        double y1=ob1.getY();
+        double y2=ob2.getY();
+        double y3=ob3.getY();
 
-/** метод нахождения площади треугольника */
+        double z1=ob1.getZ();
+        double z2=ob2.getZ();
+        double z3=ob3.getZ();
 
-    public double change_point(Point3d ob1,Point3d ob2,Point3d ob3){
+        /**Расчет расстояния между точками 1 и 2 **/
+        double polX2_X1=Math.pow((x2-x1),2);
+        double polY2_Y1=Math.pow((y2-y1),2);
+        double polZ2_Z1=Math.pow(z2-z1,2);
+        double Sum1n2=polX2_X1+polY2_Y1+polZ2_Z1;
+        distance1n2=(Math.rint(Math.sqrt(Sum1n2)*100))/100;
+        if (compare_result==0)
+            System.out.println("Расстояние между точками    "+ob1.name+"    и   "+ob2.name+"    равно   " + distance1n2);
 
-        int x=0;
-        return x;
+        /**Расчет расстояния между точками 2 и 3 **/
+        double polX2_X3=Math.pow((x3-x2),2);
+        double polY2_Y3=Math.pow((y3-y2),2);
+        double polZ2_Z3=Math.pow(z3-z2,2);
+        double Sum2n3=polX2_X3+polY2_Y3+polZ2_Z3;
+        distance2n3=(Math.rint(Math.sqrt(Sum2n3)*100))/100;
+        if (compare_result==0)
+            System.out.println("Расстояние между точками    "+ob2.name+"    и   "+ob3.name+"    равно   " + distance2n3);
+
+        /**Расчет расстояния между точками 1 и 3 **/
+        double polX1_X3=Math.pow((x3-x1),2);
+        double polY1_Y3=Math.pow((y3-y1),2);
+        double polZ1_Z3=Math.pow(z3-z1,2);
+        double Sum1n3=polX1_X3+polY1_Y3+polZ1_Z3;
+        distance1n3=(Math.rint(Math.sqrt(Sum1n3)*100))/100;
+        if (compare_result==0)
+            System.out.println("Расстояние между точками    "+ob1.name+"    и   "+ob3.name+"    равно   " + distance1n3);
+
+        /**Расчет полупериметера **/
+        double half_perimeter=(distance1n2+distance1n3+distance2n3)/2;
+        /**Расчет площади**/
+        double triangle_area=Math.sqrt(half_perimeter*(half_perimeter-distance1n2)*(half_perimeter-distance1n3)*(half_perimeter-distance2n3));
+        double roundArea=(Math.rint(triangle_area*100))/100;
+
+        if (compare_result==0) {
+            System.out.println("Площадь треугольника , образованного точками    " + ob1.name + " , " + ob2.name + "    и   " + ob3.name + " равна  " + roundArea);
+            return triangle_area;
+        }
+        else {
+            System.out.println("Площадь треугольника не может быть рассчитана ,т.к. точки совпали !");
+
+            return 0;
+        }
     }
 
 }
+
+
 
 
 
